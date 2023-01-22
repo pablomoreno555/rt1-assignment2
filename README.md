@@ -27,7 +27,7 @@ The following windows will pop up:
 
 
 ## Content of the Repository
-The package "my_assignment_2", is organized as follows:
+The package *my_assignment_2*, is organized as follows:
 - The `scripts` folder, which contains the Python scripts corresponding to the three nodes: *node_a.py*, *node_b.py* and *node_c.py*.
 - The `msg` folder, which contains the definition of the custom message *PosVel*.
 - The `srv` folder, which contains the definition of the custom service "GoalsResults".
