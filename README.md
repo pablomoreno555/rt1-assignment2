@@ -13,7 +13,7 @@ This repository contains the ROS package developed for the second assignment: *m
 ## Building and running the code
 Once the previous pre-requisites are met, you can build the package by executing the command `catkin_make` within the root directory of your workspace.
 
-On the other hand, a launch file has been created in order to start the whole simulation. It's name is *my_assignment_2.launch*, so you can run the simulation by executing the following command:
+On the other hand, a launch file has been created in order to start the whole simulation. Its name is *my_assignment_2.launch*, so you can run the simulation by executing the following command:
 ```console
 roslaunch my_assignment_2 my_assignment_2.launch
 ```
