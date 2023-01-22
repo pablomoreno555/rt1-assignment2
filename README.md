@@ -37,12 +37,12 @@ The package *my_assignment_2* is organized as follows:
 
 
 ## Description of the nodes
-- **node_a**. It implements an action client for the action service *reaching_goal*, which is implemented within the package *assignment_2_2022*. Through a small User Interface, it allows the user to set a new target (x, y) or to cancel the current target. It also publishes on the topic */pos_vel* the robot position and velocity using the custom message *PosVel*, composed by the fields *x*, *y*, *vel_x* and vel_y*, by relying on the values published on the topic */odom*.
+- **node_a**. It implements an action client for the action service *reaching_goal*, which is implemented within the package *assignment_2_2022*. Through a small User Interface, it allows the user to set a new target (x, y) or to cancel the current target. It also publishes on the topic */pos_vel* the robot position and velocity using the custom message *PosVel*, composed by the fields *x*, *y*, *vel_x* and *vel_y*, by relying on the values published on the topic */odom*.
 - **node_b**. It implements the service *GoalsResults*, which, when called, prints and returns the number of goals reached and cancelled.
 - **node_c**. It subscribes to the topics */pos_vel* and */reaching_goal/goal* and prints the current distance from the robot to the target and the robot's average speed. It prints the information at a rate established by the the parameter *rate_node_c*, which we can modify in the launch file.
 
 
-## Pseudo-code of **node_a**
+## Pseudo-code of *node_a*
 ```console
 FUNCTION "callback_odometry":
 	
