@@ -37,4 +37,48 @@ The package "my_assignment_2", is organized as follows:
 
 
 ## Description of the nodes
-- **node_a**. It implements an action client for the action service *reaching_goal*, implemented within the package *assignment_2_2022*. Through a small User Interface, it allows the user to set a new target (x, y) or to cancel the current target. It also publishes the robot position and velocity using the custom message *PosVel*, composed by the fields *x*, *y*, *vel_x* and vel_y*.
+- **node_a**. It implements an action client for the action service *reaching_goal*, implemented within the package *assignment_2_2022*. Through a small User Interface, it allows the user to set a new target (x, y) or to cancel the current target. It also publishes on the topic */pos_vel* the robot position and velocity using the custom message *PosVel*, composed by the fields *x*, *y*, *vel_x* and vel_y*, by relying on the values published on the topic */odom*.
+- **node_b**. It implements the service *GoalsResults*, which, when called, prints and returns the number of goals reached and cancelled.
+- **node_c**. It subscribes to the topics */pos_vel* and */reaching_goal/goal* and prints the current distance from the robot to the target and the robot's average speed. It prints the information at a rate established by the the parameter *rate_node_c*, which we can modify in the launch file.
+
+
+## Pseudo-code of **node_a**
+```console
+FUNCTION "callback_odometry":
+	
+	Declare a message of the custom type "PosVel"
+	Get the values of position (x and y) and velocity (linear in x and angular in z) from the received message (of type "Odom")
+	Fill the four fields of the "PosVel" message with the corresponding received values
+	Publish the message via the topic "/pos_vel"
+	
+
+MAIN FUNCTION:
+
+	Initialize a rospy node
+	Subscribe to the topic "/odom" (of type "Odometry") setting "callback_odometry" as the associated callback function
+	Advertise the topic "/pos_vel"
+	Initialize the parameters related to the number of goals reached and cancelled
+	Create a simple action client of the action service '/reaching_goal', of type 'PlanningAction'
+	Wait until the action server has started up and started listening for goals
+	
+	while this node is running:
+		
+		Prompt the user to enter a new target (x, y)
+		Create a goal to send to the action server, with the values entered by the user, of type 'PlanningGoal'
+		Send the goal to the action server
+
+		while the goal has not been reached:
+	
+			If we receive a status message equal to 3:
+				Report in the console that the goal has been reached
+				Increment the parameter related to the number of goals reached
+				Exit the loop
+
+			Elif the user presses the 'c' key:
+				Cancel the current goal
+				Report in the console that the goal has been cancelled
+				Increment the parameter related to the number of goals cancelled
+				Exit the loop
+```
+
+
