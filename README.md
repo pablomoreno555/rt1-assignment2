@@ -13,7 +13,12 @@ This repository contains the ROS package developed for the second assignment: *m
 ## Building and running the code
 Once the previous pre-requisites are met, you can build the package by executing the command `catkin_make` within the root directory of your workspace.
 
-On the other hand, a launch file has been created in order to start the whole simulation. Its name is *my_assignment_2.launch*, so you can run the simulation by executing the following command:
+Then, to be able to run the simulation, we first need to make executable the Python scripts corresponding to the three nodes: *node_a.py*, *node_b.py* and *node_c.py*, located within the `scripts` folder. To do that, we need to go to the `scripts` folder and execute the following command:
+```console
+chmod +x *.py
+```
+
+Finally, in order to run the simulation, a launch file has been created. Its name is *my_assignment_2.launch*. So, you can run the whole simulation by executing the following command:
 ```console
 roslaunch my_assignment_2 my_assignment_2.launch
 ```
