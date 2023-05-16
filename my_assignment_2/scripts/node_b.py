@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 .. module:: node_b
 	:platform: Unix
@@ -13,7 +15,6 @@ Server of the service:
 	
 """
 
-#!/usr/bin/env python3
 import rospy
 import sys
 from my_assignment_2.srv import GoalsResults, GoalsResultsResponse
