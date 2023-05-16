@@ -1,3 +1,21 @@
+"""
+.. module:: node_c
+	:platform: Unix
+	:synopsis: Python module for the node_c
+	
+.. moduleauthor:: Pablo Moreno
+
+This node prints the current distance from the robot to the target and the robot's average speed. 
+
+It prints this information at the rate established by the the parameter **rate_node_c**, which can be modified in the launch file.
+
+Subscribes to:
+	**/pos_vel** \n
+	**/reaching_goal/goal**
+	
+"""
+
+
 #!/usr/bin/env python3
 import rospy
 from my_assignment_2.msg import PosVel
@@ -12,9 +30,19 @@ acum_vel_x = acum_vel_z = 0 # Needed to compute the average speeds
 n = 0 # Counter, also needed to compute the average speeds
 
 
-# This function will be called every time a msg is received via the topic /pos_vel. It will get the current position and velocity
-# of the robot, and update its average speeds
+
 def callback_pos_vel(my_pos_vel):
+	"""
+	Callback function to get the current position and velocity of the robot and update its average speed.
+
+	Args:
+		my_pos_vel(**PosVel**): The robot's position (*x*, *y*) and velocity (*vel_x*, *vel_z*)
+
+	This function will be executed every time a message is received via the topic **/pos_vel**. It gets the robot's x and y 
+	position, its linear x velocity and its angular z velocity, and updates the average linear and angular speeds.
+	
+	"""
+
 	global x, y, vel_x, vel_z
 	x = my_pos_vel.x
 	y = my_pos_vel.y
@@ -29,15 +57,34 @@ def callback_pos_vel(my_pos_vel):
 	avg_vel_z = acum_vel_z / n
 	
 
-# This function will be called every time a msg is received via the topic /reaching_goal/goal. It will get the current position
-# of the target and update the corresponding variables
+
 def callback_goal(target):
+	"""
+	Callback function to get the current position of the target.
+
+	Args:
+		target(**PlanningActionGoal**): The current goal sent to the action server
+
+	This function will be executed every time a message is received via the topic **/reaching_goal/goal**. It extracts the *x* and
+	*y* position coordinates from the message received, and updates the corresponding internal variables of this node.
+	
+	"""
+
 	global x_goal, y_goal
 	x_goal = target.goal.target_pose.pose.position.x
 	y_goal = target.goal.target_pose.pose.position.y
 
 
 def main():
+	"""
+	The **main()** function continuously prints the distance to the target and the robot's average speed.
+	
+	First, it initializes the ROS node (by relying on the `rospy <http://wiki.ros.org/rospy/>`_ module), subscribes to the
+	topics **/pos_vel** and **/reaching_goal/goal**, and gets the rate of execution of this node from the ROS parameter server.
+	Then, at the specified rate, it prints the robot's average *x* and *z* speeds, and after a goal has been set, it also
+	continuously computes its distance to the robot and prints it in the terminal.
+	
+	"""
 
 	# Initialize a rospy node
 	rospy.init_node('node_c')

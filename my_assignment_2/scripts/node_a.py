@@ -1,3 +1,28 @@
+"""
+.. module:: node_a
+	:platform: Unix
+	:synopsis: Python module for the node_a
+	
+.. moduleauthor:: Pablo Moreno
+
+This node implements an action client for the action service **/reaching_goal**. 
+
+Through a small user interface, it allows the user to set a new target *(x, y)* or to cancel the current 
+target. It also publishes on the topic **/pos_vel** the robot's current position and velocity using the custom message ``PosVel``, 
+which is composed by the fields *x*, *y*, *vel_x* and *vel_z*, by relying on the values received on the topic **/odom**.
+
+Subscribes to:
+	**/odom**
+	
+Publishes to:
+	**/pos_vel**
+
+Client of the action service:
+	**/reaching_goal**
+	
+"""
+
+
 #!/usr/bin/env python3
 import rospy
 from geometry_msgs.msg import PoseStamped
@@ -12,11 +37,21 @@ from assignment_2_2022.msg import PlanningAction, PlanningGoal
 
 # Since we'll publish within the callback function, we have to define the publisher globally
 pub = rospy.Publisher("/pos_vel", PosVel, queue_size=10)
+""" Publisher for the robot's current position and velocity.
+"""
 
 
-# This function will be called every time a msg is received via the topic /odom, and will publish via the topic
-# /pos_vel the robot's x and y position, its linear x velocity and its angular z velocity
 def callback_odometry(odometry):
+	"""
+	Callback function to publish the robot's current position and velocity.
+
+	Args:
+		odometry(**Odometry**): the robot's odometry, that is, its pose and its twist.
+	
+	This function will be executed every time a message is received via the topic **/odom**, and will publish via the topic
+	**/pos_vel** the robot's x and y position, its linear x velocity and its angular z velocity.
+	
+	"""
 
 	my_pos_vel = PosVel() # this is the msg we'll publish
 	
@@ -30,6 +65,19 @@ def callback_odometry(odometry):
 	
 
 def main():
+	"""
+	The  **main()** function prompts the user to enter a new target, sends it to the action server, and waits until the goal is 
+	reached, while monitoring if the user wants to cancel it.
+	
+	It first initializes the ROS node, by relying on the `rospy <http://wiki.ros.org/rospy/>`_ module. Then, it subscribes to
+	the topic **/odom**, and initializes the parameters related to the numbers of goals reached and cancelled in the ROS parameter
+	server. Then, it creates an action client for the service **/reaching_goal**, whose action type is ``PlanningAction``. After that, 
+	it gets a new target *(x, y)* from the user, creates a new goal with the values entered by the user, and sends it to the action server.
+	It waits until the goal is reached, while monitoring the keyboard to check if the user wants to cancel the goal. Once the
+	goal has been reached, it increases the parameter associated to the number of goals reached, and prompts the user to enter a new
+	target.
+	
+	"""
 
 	# Initialize a rospy node so that the SimpleActionClient can publish and subscribe over ROS
 	rospy.init_node('planning_client')
