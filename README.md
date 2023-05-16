@@ -4,6 +4,8 @@ Pablo Moreno Moreno - S5646698
 
 This repository contains the ROS package developed for the second assignment: *my_assignment_2*.
 
+To see its documentation go to the following URL: https://pablomoreno555.github.io/rt1-assignment2/
+
 
 ## Required applications/packages
 - You need to have the package *assignment_2_2022* within your workspace.
