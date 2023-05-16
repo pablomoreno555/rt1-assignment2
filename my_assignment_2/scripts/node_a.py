@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 .. module:: node_a
 	:platform: Unix
@@ -22,8 +24,6 @@ Client of the action service:
 	
 """
 
-
-#!/usr/bin/env python3
 import rospy
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Odometry
