@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 .. module:: node_c
 	:platform: Unix
@@ -15,8 +17,6 @@ Subscribes to:
 	
 """
 
-
-#!/usr/bin/env python3
 import rospy
 from my_assignment_2.msg import PosVel
 from assignment_2_2022.msg import PlanningActionGoal
